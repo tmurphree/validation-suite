@@ -16,19 +16,20 @@ if (username.length === 0) {
 // assert takes care of some of the 'if' code, but you still have to type the error messages.
 // Plus it's only in Node as far as I know.
 // https://nodejs.org/dist/latest-v12.x/docs/api/assert.html#assert_assert_ok_value_message
+
 assert.ok(typeof username !== 'string', 'username is not a string');
 assert.ok(username.length === 0, 'username is zero length.');
 
 // This library gives you less typing and more checks.
 // The following line checks for type 'string' and zero length and throws the same error messages as above.
 // The second 'username' argument tells the error message what variable name to use; if omitted, 'input' is used.
-// It returns true if the check passes, but I'm not sure you'll ever need that.  Use a simple validation instead.
+// It returns undefined if the check passes.
 checkIsPopulatedString(username, 'username');
 
-// throws 'hasAdog is not a boolean' or returns true
+// throws 'hasAdog is not a boolean' or returns undefined
 checkIsBoolean(hasAdog, 'hasAdog');
 
-// uses the default variable name 'input', so throws 'input is not a number' or returns true
+// uses the default variable name 'input', so throws 'input is not a number' or returns undefined
 checkIsNumber(foo);
 ```
 
@@ -40,7 +41,7 @@ npm install --save @tmurphree/validation-suite
 
 # Functions  
 **All functions** do the same thing:
-1. Return `true` if the validation passes.  
+1. Return `undefined` if the validation passes.  
 2. Throw an Error is the validation fails.  
 
 The name of the function in this library appends 'check' to the name of the validation function in [@tmurphree/validation-predicates](https://www.npmjs.com/package/@tmurphree/validation-predicates).  For example, checkIsArray uses the isArray validation function.  checkIsDateBefore uses the isDateBefore validation function.  etc.  
