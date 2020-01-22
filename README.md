@@ -1,44 +1,68 @@
 # validation-suite  
-Superset of @tmurphree/validation-predicates and @tmurphree/validation-error-messages.
+Superset of [@tmurphree/validation-predicates](https://github.com/tmurphree/validation-predicates) and [@tmurphree/validation-error-messages](https://github.com/tmurphree/validation-error-messages).
 
 # Why and usage  
-Makes input validation faster by taking care of some of the unnecesssry typing.  
+Makes input validation faster by removing unnecesssry typing.  
 ``` js
-// initially, we had to type out everything
-if (typeof username !== 'string') {
-  throw new Error('username is not a string');
-}
+// The following line checks for type 'string' and zero length and returns undefined if the check passes.
 
-if (username.length === 0) {
-  throw new Error('username is zero length.');
-}
+// If the checks fail, it throws one of:
+// * 'username is not a string.'
+// * 'username is zero length.'
 
-// assert takes care of some of the 'if' code, but you still have to type the error messages.
-// Plus it's only in Node as far as I know.
-// https://nodejs.org/dist/latest-v12.x/docs/api/assert.html#assert_assert_ok_value_message
+// The second argument tells the error message what variable name to use; if omitted, 'input' is used.
 
-assert.ok(typeof username !== 'string', 'username is not a string');
-assert.ok(username.length === 0, 'username is zero length.');
-
-// This library gives you less typing and more checks.
-// The following line checks for type 'string' and zero length and throws the same error messages as above.
-// The second 'username' argument tells the error message what variable name to use; if omitted, 'input' is used.
-// It returns undefined if the check passes.
 checkIsPopulatedString(username, 'username');
 
-// throws 'hasAdog is not a boolean' or returns undefined
+// returns undefined or throws 'hasAdog is not a boolean.'
 checkIsBoolean(hasAdog, 'hasAdog');
 
-// uses the default variable name 'input', so throws 'input is not a number' or returns undefined
-checkIsNumber(foo);
+// uses the default variable name 'input', so returns undefined or throws 'input is not an integer.'
+checkIsInteger(foo);
 ```
 
 # Change log  
-Link coming soon  
+[Link to change log](https://github.com/tmurphree/validation-suite/blob/master/CHANGELOG.md)  
 
 # Installation  
 npm install --save @tmurphree/validation-suite  
 
+# In addition to the check functions  
+## predicates  
+All of the true / false tests from [@tmurphree/validation-predicates](https://github.com/tmurphree/validation-predicates).  
+Allows you to not throw an error (or throw a completely different error).  
+## errorMessages  
+Everything from [@tmurphree/validation-error-messages](https://github.com/tmurphree/validation-error-messages).  
+## strict mode  
+Turns on strict mode in [@tmurphree/validation-predicates](https://github.com/tmurphree/validation-predicates) and [@tmurphree/validation-error-messages](https://github.com/tmurphree/validation-error-messages).  
+
+``` js
+// strict mode on
+// const vs = require('@tmurphree/validation-suite').strict;
+
+// strict mode off
+const vs = require('@tmurphree/validation-suite');
+
+
+const { predicates } = vs;
+// const predicates = vs.predicates;
+
+const { errorMessages } = vs;
+// const errorMessages = vs.errorMessages;
+
+// throws built-in error message
+vs.checkIsString(username);
+
+if (predicates.isInteger(userId)) {
+  throw new Error('some custom error message');
+}
+
+// don't throw
+if (!(predicates.isObjectLike(x, template))) {
+  console.error(errorMessages.makeIsObjectLikeMessage(x, template));
+}
+
+```
 # Functions  
 **All functions** do the same thing:
 1. Return `undefined` if the validation passes.  
@@ -50,18 +74,17 @@ The name of the function in this library appends 'check' to the name of the vali
 * Parameters in brackets are optional.  
 * 'x' in the parameters list is the thing you want to test.  
 * 'variableName' in the parameters list always defaults to 'input'.  It can be used to make the error messages more semantic.  
+* The bullet points below the syntax text are the error messages that are thrown.  
 
 ## checkisArray  
 ```
 checkIsArray(x, [variableName])
 ```
-Error message(s):  
 * input is not an array.  
 
 ## checkisBigInt  
 ```
 checkIsBigInt(x, [variableName])
 ```
-Error message(s):  
 * input is not a BigInt.  
 
