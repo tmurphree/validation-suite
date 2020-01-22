@@ -43,7 +43,7 @@ const main = function main(args = { strict: false }) {
     checkIsDate(x, variableName);
 
     if (!(vp.isDateGreaterThan(x, someDate))) {
-      throw new Error(`${variableName} is not a date later than ${someDate.toISOString()}.`);
+      throw new Error(`${variableName} is not a date after ${someDate.toISOString()}.`);
     }
   };
 
@@ -52,8 +52,16 @@ const main = function main(args = { strict: false }) {
       throw new Error('The date to check against is not a date.');
     }
 
+    checkIsDate(x, variableName);
+
     if (!(vp.isDateLessThan(x, someDate))) {
-      throw new Error(`${variableName} is not a date less than ${someDate.toISOString()}.`);
+      throw new Error(`${variableName} is not a date before ${someDate.toISOString()}.`);
+    }
+  };
+
+  const checkIsFloat = function checkIsFloat(x, variableName = 'input') {
+    if (!(vp.isFloat(x))) {
+      throw new Error(`${variableName} is not a floating point number.`);
     }
   };
 
@@ -62,6 +70,19 @@ const main = function main(args = { strict: false }) {
       throw new Error(`${variableName} is not a function.`);
     }
   };
+
+  const checkIsInteger = function checkIsInteger(x, variableName = 'input') {
+    if (!(vp.isInteger(x))) {
+      throw new Error(`${variableName} is not an integer.`);
+    }
+  };
+
+  const checkIsIsoDateTimeString = function checkIsIsoDateTimeString(x, variableName = 'input') {
+    if (!(vp.isIsoDateTimeString(x))) {
+      throw new Error(`${variableName} is not an ISO date time string in a supported layout.  See the documentation https://github.com/tmurphree/validation-predicates.`);
+    }
+  };
+
 
   const checkIsNull = function checkIsNull(x, variableName = 'input') {
     if (!(vp.isNull(x))) {
@@ -79,10 +100,10 @@ const main = function main(args = { strict: false }) {
     checkIsDateBefore: checkIsDateLessThan,
     checkIsDateGreaterThan,
     checkIsDateLessThan,
+    checkIsFloat,
     checkIsFunction,
-    // checkIsFloat,
-    // checkIsInteger,
-    // checkIsIsoDateTimeString,
+    checkIsInteger,
+    checkIsIsoDateTimeString,
     checkIsNull,
     // checkIsNullOrUndefined,
     // checkIsNumber,

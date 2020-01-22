@@ -99,7 +99,7 @@ describe('checkIsDateBefore', () => {
 
 describe('checkIsDateGreaterThan', () => {
   it('throws on bad input', () => {
-    const someDate = new Date(2099, 9, 2);
+    const someDate = new Date(Date.UTC(2099, 9, 2, 0, 0, 0));
 
     // validate someDate
     expect(() => { vs.checkIsDateGreaterThan('badInput', 'moreBadInput'); })
@@ -109,16 +109,60 @@ describe('checkIsDateGreaterThan', () => {
     expect(() => { vs.checkIsDateGreaterThan('badInput', someDate); })
       .toThrowError('input is not a date.');
     expect(() => { vs.checkIsDateGreaterThan(new Date(2001, 9, 1), someDate); })
-      .toThrowError('input is not a date later than 2099-10-02T05:00:00.000Z.');
+      .toThrowError('input is not a date after 2099-10-02T00:00:00.000Z.');
 
     // different variable name
     expect(() => { vs.checkIsDate('badInput', 'charles'); }).toThrowError('charles is not a date.');
     expect(() => { vs.checkIsDateGreaterThan(new Date(2001, 9, 1), someDate, 'charles'); })
-      .toThrowError('charles is not a date later than 2099-10-02T05:00:00.000Z.');
+      .toThrowError('charles is not a date after 2099-10-02T00:00:00.000Z.');
   });
 
   it('returns undefined', () => {
-    expect(vs.checkIsDate(new Date(2001), new Date(1970))).toBeUndefined();
+    expect(vs.checkIsDateGreaterThan(new Date(2001), new Date(1970))).toBeUndefined();
+  });
+});
+
+describe('checkIsDateLessThan', () => {
+  it('throws on bad input', () => {
+    const someDate = new Date(Date.UTC(1999, 9, 2, 0, 0, 0));
+
+    // validate someDate
+    expect(() => { vs.checkIsDateLessThan('badInput', 'moreBadInput'); })
+      .toThrowError('The date to check against is not a date.');
+
+    // validate x
+    expect(() => { vs.checkIsDateLessThan('badInput', someDate); })
+      .toThrowError('input is not a date.');
+    expect(() => { vs.checkIsDateLessThan(new Date(2001, 9, 1), someDate); })
+      .toThrowError('input is not a date before 1999-10-02T00:00:00.000Z.');
+
+    // different variable name
+    expect(() => { vs.checkIsDate('badInput', 'charles'); }).toThrowError('charles is not a date.');
+    expect(() => { vs.checkIsDateLessThan(new Date(2001, 9, 1), someDate, 'charles'); })
+      .toThrowError('charles is not a date before 1999-10-02T00:00:00.000Z.');
+  });
+
+  it('returns undefined', () => {
+    expect(vs.checkIsDateLessThan(new Date(1980), new Date(2033))).toBeUndefined();
+  });
+});
+
+describe('checkIsFloat', () => {
+  it('throws on bad input', () => {
+    expect(() => { vs.checkIsFloat('badInput'); })
+      .toThrowError('input is not a floating point number.');
+
+    // integer
+    expect(() => { vs.checkIsFloat(1); })
+      .toThrowError('input is not a floating point number.');
+
+    // different variable name
+    expect(() => { vs.checkIsFloat('badInput', 'charles'); })
+      .toThrowError('charles is not a floating point number.');
+  });
+
+  it('returns undefined', () => {
+    expect(vs.checkIsFloat(12.5)).toBeUndefined();
   });
 });
 
@@ -133,6 +177,40 @@ describe('checkIsFunction', () => {
   it('returns undefined', () => {
     const funFunFunction = () => true;
     expect(vs.checkIsFunction(funFunFunction)).toBeUndefined();
+  });
+});
+
+describe('checkIsInteger', () => {
+  it('throws on bad input', () => {
+    expect(() => { vs.checkIsInteger('badInput'); })
+      .toThrowError('input is not an integer.');
+
+    expect(() => { vs.checkIsInteger(4.554); })
+      .toThrowError('input is not an integer.');
+
+    // different variable name
+    expect(() => { vs.checkIsInteger('badInput', 'charles'); })
+      .toThrowError('charles is not an integer.');
+  });
+
+  it('returns undefined', () => {
+    expect(vs.checkIsInteger(5)).toBeUndefined();
+    expect(vs.checkIsInteger(5.0)).toBeUndefined();
+  });
+});
+
+describe('checkIsIsoDateTimeString', () => {
+  it('throws on bad input', () => {
+    expect(() => { vs.checkIsIsoDateTimeString('badInput'); })
+      .toThrowError('input is not an ISO date time string in a supported layout.  See the documentation https://github.com/tmurphree/validation-predicates.');
+
+    // different variable name
+    expect(() => { vs.checkIsIsoDateTimeString('badInput', 'charles'); })
+      .toThrowError('charles is not an ISO date time string in a supported layout.  See the documentation https://github.com/tmurphree/validation-predicates.');
+  });
+
+  it('returns undefined', () => {
+    expect(vs.checkIsIsoDateTimeString('1999-10-02T00:00:00.000Z')).toBeUndefined();
   });
 });
 
