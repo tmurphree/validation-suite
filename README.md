@@ -88,3 +88,33 @@ checkIsBigInt(x, [variableName])
 ```
 * input is not a BigInt.  
 
+## checkIsNullOrUndefined   
+The checks in the root of this library check for something positive.  E.g. checkIsArray passes if the input is an array.  The same applies here: this function passes if the input is null or undefined.  Consider using `vs.not.checkIsNotNullOrUndefined` if this is not what you want.  
+```
+checkIsBigInt(x, [variableName])
+```
+* input is not null or undefined  
+
+## checkIsNumber  
+Fails for NaN.  
+```
+checkIsNumber(x, [variableName])
+```
+* input is not a number or is NaN.   
+
+# "not" functions  
+Check for a negative.  In a separate namespace because it's very hard to differentiate `checkIsNullOrUndefined` and `checkIsNotNullOrUndefined`.  It's easier differentiate `vs.checkIsNullOrUndefined` and `vs.not.checkIsNotNullOrUndefined`.  
+
+``` js
+// use with 'vs.not'
+const vs = require('@tmurphree/validation-suite');
+
+vs.not.checkIsNotNullOrUndefined(userId);
+```
+## not.checkIsNotNullOrUndefined
+```
+vs.not.checkIsNotNullOrUndefined(userId);
+```
+* input is null  
+* input is undefined  
+

@@ -1,5 +1,9 @@
 /* eslint no-undef:"off" */
 
+/**
+ * @fileoverview Test functions in the vs root namespace.
+*/
+
 require('dotenv').config();
 
 const vs = require('../index.js');
@@ -112,7 +116,7 @@ describe('checkIsDateGreaterThan', () => {
       .toThrowError('input is not a date after 2099-10-02T00:00:00.000Z.');
 
     // different variable name
-    expect(() => { vs.checkIsDate('badInput', 'charles'); }).toThrowError('charles is not a date.');
+    expect(() => { vs.checkIsDateGreaterThan('badInput', someDate, 'charles'); }).toThrowError('charles is not a date.');
     expect(() => { vs.checkIsDateGreaterThan(new Date(2001, 9, 1), someDate, 'charles'); })
       .toThrowError('charles is not a date after 2099-10-02T00:00:00.000Z.');
   });
@@ -137,7 +141,7 @@ describe('checkIsDateLessThan', () => {
       .toThrowError('input is not a date before 1999-10-02T00:00:00.000Z.');
 
     // different variable name
-    expect(() => { vs.checkIsDate('badInput', 'charles'); }).toThrowError('charles is not a date.');
+    expect(() => { vs.checkIsDateLessThan('badInput', someDate, 'charles'); }).toThrowError('charles is not a date.');
     expect(() => { vs.checkIsDateLessThan(new Date(2001, 9, 1), someDate, 'charles'); })
       .toThrowError('charles is not a date before 1999-10-02T00:00:00.000Z.');
   });
@@ -216,7 +220,7 @@ describe('checkIsIsoDateTimeString', () => {
 
 describe('checkIsNull', () => {
   it('throws on bad input', () => {
-    expect(() => { vs.checkIsNull('badInput'); }).toThrowError('input is not null.');
+    expect(() => { vs.checkIsNull({}); }).toThrowError('input is not null.');
 
     // different variable name
     expect(() => { vs.checkIsNull('badInput', 'charles'); }).toThrowError('charles is not null.');
@@ -224,5 +228,115 @@ describe('checkIsNull', () => {
 
   it('returns undefined', () => {
     expect(vs.checkIsNull(null)).toBeUndefined();
+  });
+});
+
+describe('checkIsNullOrUndefined', () => {
+  it('throws on bad input', () => {
+    const emptyObject = {};
+
+    expect(() => { vs.checkIsNullOrUndefined('badInput'); }).toThrowError('input is not null or undefined.');
+    expect(() => { vs.checkIsNullOrUndefined(0); }).toThrowError('input is not null or undefined.');
+    expect(() => { vs.checkIsNullOrUndefined(false); }).toThrowError('input is not null or undefined.');
+
+    expect(() => { vs.checkIsNullOrUndefined(emptyObject); }).toThrowError('input is not null or undefined.');
+    expect(() => { vs.checkIsNullOrUndefined({}); }).toThrowError('input is not null or undefined.');
+    expect(() => { vs.checkIsNullOrUndefined(''); }).toThrowError('input is not null or undefined.');
+    expect(() => { vs.checkIsNullOrUndefined(NaN); }).toThrowError('input is not null or undefined.');
+
+    // different variable name
+    expect(() => { vs.checkIsNullOrUndefined({}, 'charles'); }).toThrowError('charles is not null or undefined.');
+  });
+
+  it('returns undefined', () => {
+    expect(vs.checkIsNullOrUndefined(null)).toBeUndefined();
+    expect(vs.checkIsNullOrUndefined(undefined)).toBeUndefined();
+  });
+});
+
+describe('checkIsNumber', () => {
+  it('throws on bad input', () => {
+    expect(() => { vs.checkIsNumber('badInput'); }).toThrowError('input is not a number or is NaN.');
+    expect(() => { vs.checkIsNumber(NaN); }).toThrowError('input is not a number or is NaN.');
+
+    // different variable name
+    expect(() => { vs.checkIsNumber('badInput', 'charles'); }).toThrowError('charles is not a number or is NaN.');
+  });
+
+  it('returns undefined', () => {
+    expect(vs.checkIsNumber(13)).toBeUndefined();
+    expect(vs.checkIsNumber(Infinity)).toBeUndefined();
+  });
+});
+
+describe('checkIsNumberGreaterThan', () => {
+  it('throws on bad input', () => {
+    // validate someNumber
+    expect(() => { vs.checkIsNumberGreaterThan('badInput', 'moreBadInput'); })
+      .toThrowError('The number to check against is not a number or is NaN.');
+    expect(() => { vs.checkIsNumberGreaterThan('badInput', NaN); })
+      .toThrowError('The number to check against is not a number or is NaN.');
+
+    // validate x
+    expect(() => { vs.checkIsNumberGreaterThan('badInput', 900); })
+      .toThrowError('input is not a number or is NaN.');
+    expect(() => { vs.checkIsNumberGreaterThan(NaN, 900); })
+      .toThrowError('input is not a number or is NaN.');
+    expect(() => { vs.checkIsNumberGreaterThan(3, 900); })
+      .toThrowError('input is not a number greater than 900.');
+
+    // different variable name
+    expect(() => { vs.checkIsNumberGreaterThan('badInput', 900, 'charles'); })
+      .toThrowError('charles is not a number or is NaN.');
+    expect(() => { vs.checkIsNumberGreaterThan(2, 900, 'charles'); })
+      .toThrowError('charles is not a number greater than 900.');
+  });
+
+  it('returns undefined', () => {
+    expect(vs.checkIsNumberGreaterThan(90, 4.3)).toBeUndefined();
+  });
+});
+
+describe('checkIsNumberLessThan', () => {
+  it('throws on bad input', () => {
+    // validate someNumber
+    expect(() => { vs.checkIsNumberLessThan('badInput', 'moreBadInput'); })
+      .toThrowError('The number to check against is not a number or is NaN.');
+    expect(() => { vs.checkIsNumberLessThan('badInput', NaN); })
+      .toThrowError('The number to check against is not a number or is NaN.');
+
+    // validate x
+    expect(() => { vs.checkIsNumberLessThan('badInput', 900); })
+      .toThrowError('input is not a number or is NaN.');
+    expect(() => { vs.checkIsNumberLessThan(NaN, 900); })
+      .toThrowError('input is not a number or is NaN.');
+    expect(() => { vs.checkIsNumberLessThan(900, 2); })
+      .toThrowError('input is not a number less than 2.');
+
+    // different variable name
+    expect(() => { vs.checkIsNumberLessThan('badInput', 900, 'charles'); })
+      .toThrowError('charles is not a number or is NaN.');
+    expect(() => { vs.checkIsNumberLessThan(900, 2, 'charles'); })
+      .toThrowError('charles is not a number less than 2.');
+  });
+
+  it('returns undefined', () => {
+    expect(vs.checkIsNumberLessThan(1.9, 455)).toBeUndefined();
+  });
+});
+
+describe('checkIsObject', () => {
+  it('throws on bad input', () => {
+    expect(() => { vs.checkIsObject('badInput'); }).toThrowError('input is not an object or is null.');
+    expect(() => { vs.checkIsObject(null); }).toThrowError('input is not an object or is null.');
+
+    // different variable name
+    expect(() => { vs.checkIsObject('badInput', 'charles'); }).toThrowError('charles is not an object or is null.');
+  });
+
+  it('returns undefined', () => {
+    expect(vs.checkIsObject({ a: 'd' })).toBeUndefined();
+    expect(vs.checkIsObject([1, 3, 4])).toBeUndefined();
+    expect(vs.checkIsObject(new Date())).toBeUndefined();
   });
 });
