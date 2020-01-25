@@ -340,3 +340,68 @@ describe('checkIsObject', () => {
     expect(vs.checkIsObject(new Date())).toBeUndefined();
   });
 });
+
+describe('checkIsObjectLike', () => {
+  const template = { a: 1, b: 2, c: 3 };
+  it('throws on bad input', () => {
+    expect(() => (vs.checkIsObjectLike()))
+      .toThrowError('The template object is not an object or is null.');
+    expect(() => (vs.checkIsObjectLike(99)))
+      .toThrowError('The template object is not an object or is null.');
+    expect(() => (vs.checkIsObjectLike({ foo: 12 }, 12)))
+      .toThrowError('The template object is not an object or is null.');
+  });
+
+  it('returns an error messages for non-objects', () => {
+    expect(() => (vs.checkIsObjectLike('notanobject', template)))
+      .toThrowError('input is not an object.');
+
+    expect(() => (vs.checkIsObjectLike(null, template)))
+      .toThrowError('input is not an object.');
+
+    expect(() => (vs.checkIsObjectLike(undefined, template)))
+      .toThrowError('input is not an object.');
+  });
+
+  it('returns undefined if no differences', () => {
+    expect(vs.checkIsObjectLike({ a: 1, b: 2, c: 3 }, template)).toBeUndefined();
+  });
+
+  it('returns an error message for objects', () => {
+    // x is missing property b
+    expect(() => (vs.checkIsObjectLike({ a: 1, c: 3 }, template)))
+      .toThrowError('input is missing at least property b.');
+
+    // x is missing property b and has additional property z
+    // we look for missing properties first
+    expect(() => (vs.checkIsObjectLike({ a: 1, c: 3, z: 4 }, template)))
+      .toThrowError('input is missing at least property b.');
+
+    // x has all of template plus property d
+    expect(() => (vs.checkIsObjectLike({
+      a: 1, b: 2, c: 3, d: 4,
+    }, template)))
+      .toThrowError('input has at least one additional property d.');
+  });
+
+  it('returns on the first missing property when more than one property is missing', () => {
+    // x is missing properties b and c
+    expect(() => (vs.checkIsObjectLike({ a: 1 }, template)))
+      .toThrowError('input is missing at least property b.');
+  });
+
+  it('lets you change the variable name in the output', () => {
+    expect(() => (vs.checkIsObjectLike('notanobject', template, 'charles')))
+      .toThrowError('charles is not an object.');
+
+    // x is missing property b
+    expect(() => (vs.checkIsObjectLike({ a: 1, c: 3 }, template, 'charles')))
+      .toThrowError('charles is missing at least property b.');
+
+    // x has all of template plus property d
+    expect(() => (vs.checkIsObjectLike({
+      a: 1, b: 2, c: 3, d: 4,
+    }, template, 'charles')))
+      .toThrowError('charles has at least one additional property d.');
+  });
+});

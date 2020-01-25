@@ -132,6 +132,38 @@ const main = function main(args = { strict: false }) {
       throw new Error(`${variableName} is not an object or is null.`);
     }
   };
+
+  /**
+   * @description Compare two objects.  Throw if the objects do not have exactly the
+   *    same properties.  Optionally do a basic type check with typeof and throw
+   *    if the types are different.
+   * @param {object} x The object to test.
+   * @param {object} template The object you want x to look like.
+   * @param {string} [variableName=input] The name you want printed in the message.
+   * @param {object} [options]
+   * @param {boolean} [options.checkType=false] Defaults to true in strict mode.
+   *    If true check property data types.
+   * @param {boolean} [options.debug=false] Print verbose reasons why the validation
+   *    failed.  This is mainly used when the true / false function is by itself and
+   *    may be redundant in this library because failure reasons are thrown.
+   * @returns {undefined} undefined
+  */
+  const checkIsObjectLike = function checkIsObjectLike(
+    x,
+    template,
+    variableName = 'input',
+    options = { checkType: args.strict, debug: false }
+  ) {
+    if (!(vp.isObject(template))) {
+      throw new Error('The template object is not an object or is null.');
+    }
+
+    if (!(vp.isObjectLike(x, template, { ...options }))) {
+      throw new Error(
+        vem.makeIsObjectLikeMessage(x, template, variableName, { ...options })
+      );
+    }
+  };
   // #endregion 'is' functions
 
   // #region 'not' functions
@@ -177,7 +209,7 @@ const main = function main(args = { strict: false }) {
     checkIsNumberGreaterThan,
     checkIsNumberLessThan,
     checkIsObject,
-    // checkIsObjectLike,
+    checkIsObjectLike,
     // checkIsObjectWithExpectedProps,
     // checkIsPopulatedArray,
     // checkIsPopulatedObject,
