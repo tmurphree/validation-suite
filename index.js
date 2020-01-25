@@ -184,9 +184,7 @@ const main = function main(args = { strict: false }) {
       }
     };
 
-    return {
-      checkIsNotNullOrUndefined,
-    };
+    return { checkIsNotNullOrUndefined };
   };
   // #endregion 'not' functions
 

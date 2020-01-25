@@ -346,8 +346,10 @@ describe('checkIsObjectLike', () => {
   it('throws on bad input', () => {
     expect(() => (vs.checkIsObjectLike()))
       .toThrowError('The template object is not an object or is null.');
+
     expect(() => (vs.checkIsObjectLike(99)))
       .toThrowError('The template object is not an object or is null.');
+
     expect(() => (vs.checkIsObjectLike({ foo: 12 }, 12)))
       .toThrowError('The template object is not an object or is null.');
   });
@@ -378,9 +380,7 @@ describe('checkIsObjectLike', () => {
       .toThrowError('input is missing at least property b.');
 
     // x has all of template plus property d
-    expect(() => (vs.checkIsObjectLike({
-      a: 1, b: 2, c: 3, d: 4,
-    }, template)))
+    expect(() => (vs.checkIsObjectLike({ a: 1, b: 2, c: 3, d: 4 }, template)))
       .toThrowError('input has at least one additional property d.');
   });
 
@@ -399,9 +399,7 @@ describe('checkIsObjectLike', () => {
       .toThrowError('charles is missing at least property b.');
 
     // x has all of template plus property d
-    expect(() => (vs.checkIsObjectLike({
-      a: 1, b: 2, c: 3, d: 4,
-    }, template, 'charles')))
+    expect(() => (vs.checkIsObjectLike({ a: 1, b: 2, c: 3, d: 4 }, template, 'charles')))
       .toThrowError('charles has at least one additional property d.');
   });
 });
