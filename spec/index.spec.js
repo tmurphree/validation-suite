@@ -403,3 +403,60 @@ describe('checkIsObjectLike', () => {
       .toThrowError('charles has at least one additional property d.');
   });
 });
+
+describe('checkIsObjectWithExpectedProps', () => {
+  expectedProperties = ['userId', 'password'];
+
+  it('throws on bad input', () => {
+    expect(() => (vs.checkIsObjectWithExpectedProps({ a: 'ok' })))
+      .toThrowError('expectedProperties is not an array of strings.');
+
+    expect(() => (vs.checkIsObjectWithExpectedProps({ a: 'ok' }, 12)))
+      .toThrowError('expectedProperties is not an array of strings.');
+
+    // empty array
+    expect(() => (vs.checkIsObjectWithExpectedProps({ a: 'ok' }, [])))
+      .toThrowError('expectedProperties is not an array of strings.');
+
+    // some array elements not strings
+    expect(() => (vs.checkIsObjectWithExpectedProps({ a: 'ok' }, ['a', 123])))
+      .toThrowError('expectedProperties is not an array of strings.');
+  });
+
+  it('throws for non-objects', () => {
+    expect(() => (vs.checkIsObjectWithExpectedProps('notanobject', expectedProperties)))
+      .toThrowError('input is not an object.');
+
+    expect(() => (vs.checkIsObjectWithExpectedProps(null, expectedProperties)))
+      .toThrowError('input is not an object.');
+
+    expect(() => (vs.checkIsObjectWithExpectedProps(undefined, expectedProperties)))
+      .toThrowError('input is not an object.');
+  });
+
+  it('returns undefined if everything is there', () => {
+    expect(vs.checkIsObjectWithExpectedProps({ userId: 'a', password: 'b' }, expectedProperties))
+      .toBeUndefined();
+  });
+
+  it('throws if a property is missing', () => {
+    // x is missing property password
+    expect(() => (vs.checkIsObjectWithExpectedProps({ userId: 'a' }, expectedProperties)))
+      .toThrowError('input is missing at least property password.');
+  });
+
+  it('lets you change the variable name in the output', () => {
+    expect(() => (vs.checkIsObjectWithExpectedProps('notanobject', expectedProperties, 'charles')))
+      .toThrowError('charles is not an object.');
+
+    // x is missing property password
+    expect(() => (vs.checkIsObjectWithExpectedProps({ userId: 'a' }, expectedProperties, 'charles')))
+      .toThrowError('charles is missing at least property password.');
+  });
+});
+
+describe('checkObjectProperties', () => {
+  it('returns true by default', () => {
+    pending('implementation of reviver');
+  });
+});

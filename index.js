@@ -164,6 +164,22 @@ const main = function main(args = { strict: false }) {
       );
     }
   };
+
+  const checkIsObjectWithExpectedProps = function checkIsObjectWithExpectedProps(
+    x,
+    expectedProperties,
+    variableName = 'input'
+  ) {
+    if (!(vp.isPopulatedArray(expectedProperties)) || expectedProperties.some((el) => typeof el !== 'string')) {
+      throw new Error('expectedProperties is not an array of strings.');
+    }
+
+    if (!(vp.isObjectWithExpectedProps(x, expectedProperties))) {
+      throw new Error(
+        vem.makeIsObjectWithExpectedPropsMessage(x, expectedProperties, variableName)
+      );
+    }
+  };
   // #endregion 'is' functions
 
   // #region 'not' functions
@@ -208,7 +224,7 @@ const main = function main(args = { strict: false }) {
     checkIsNumberLessThan,
     checkIsObject,
     checkIsObjectLike,
-    // checkIsObjectWithExpectedProps,
+    checkIsObjectWithExpectedProps,
     // checkIsPopulatedArray,
     // checkIsPopulatedObject,
     // checkIsPopulatedString,
