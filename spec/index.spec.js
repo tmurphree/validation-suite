@@ -455,6 +455,128 @@ describe('checkIsObjectWithExpectedProps', () => {
   });
 });
 
+describe('checkIsPopulatedArray', () => {
+  it('throws on bad input', () => {
+    expect(() => { vs.checkIsPopulatedArray('badInput'); })
+      .toThrowError('input is not an array.');
+
+    expect(() => { vs.checkIsPopulatedArray([]); })
+      .toThrowError('input is a zero-length array.');
+
+    // different variable name
+    expect(() => { vs.checkIsPopulatedArray([], 'charles'); })
+      .toThrowError('charles is a zero-length array.');
+  });
+
+  it('returns undefined', () => {
+    expect(vs.checkIsPopulatedArray([5])).toBeUndefined();
+  });
+});
+
+describe('checkIsPopulatedObject', () => {
+  it('throws on bad input', () => {
+    expect(() => { vs.checkIsPopulatedObject('badInput'); })
+      .toThrowError('input is not an object or is null.');
+
+    expect(() => { vs.checkIsPopulatedObject({}); })
+      .toThrowError('input is an object with no non-inherited properties.');
+
+    expect(() => { vs.checkIsPopulatedObject(null); })
+      .toThrowError('input is not an object or is null.');
+
+    // different variable name
+    expect(() => { vs.checkIsPopulatedObject({}, 'charles'); })
+      .toThrowError('charles is an object with no non-inherited properties.');
+  });
+
+  it('returns undefined', () => {
+    expect(vs.checkIsPopulatedObject({ a: 5 })).toBeUndefined();
+  });
+});
+
+describe('checkIsPopulatedString', () => {
+  it('throws on bad input', () => {
+    expect(() => { vs.checkIsPopulatedString(12); })
+      .toThrowError('input is not a string.');
+
+    expect(() => { vs.checkIsPopulatedString(''); })
+      .toThrowError('input is a zero-length string.');
+
+    // different variable name
+    expect(() => { vs.checkIsPopulatedString('', 'charles'); })
+      .toThrowError('charles is a zero-length string.');
+  });
+
+  it('returns undefined', () => {
+    expect(vs.checkIsPopulatedString('{ a: 5 }')).toBeUndefined();
+  });
+});
+
+describe('checkIsString', () => {
+  it('throws on bad input', () => {
+    expect(() => { vs.checkIsString(12); })
+      .toThrowError('input is not a string.');
+
+    // different variable name
+    expect(() => { vs.checkIsString(undefined, 'charles'); })
+      .toThrowError('charles is not a string.');
+  });
+
+  it('returns undefined', () => {
+    expect(vs.checkIsString('{ a: 5 }')).toBeUndefined();
+    expect(vs.checkIsString('')).toBeUndefined();
+  });
+});
+
+describe('checkIsSymbol', () => {
+  it('throws on bad input', () => {
+    expect(() => { vs.checkIsSymbol('badInput'); })
+      .toThrowError('input is not a symbol.');
+
+    // different variable name
+    expect(() => { vs.checkIsSymbol('badInput', 'charles'); })
+      .toThrowError('charles is not a symbol.');
+  });
+
+  it('returns undefined', () => {
+    expect(vs.checkIsSymbol(Symbol('testInput'))).toBeUndefined();
+  });
+});
+
+describe('checkIsUndefined', () => {
+  it('throws on bad input', () => {
+    expect(() => { vs.checkIsUndefined('badInput'); })
+      .toThrowError('input is not undefined.');
+
+    // different variable name
+    expect(() => { vs.checkIsUndefined('badInput', 'charles'); })
+      .toThrowError('charles is not undefined.');
+  });
+
+  it('returns undefined', () => {
+    expect(vs.checkIsUndefined(undefined)).toBeUndefined();
+  });
+});
+
+describe('checkIsZeroLength', () => {
+  it('throws on bad input and constraint violation', () => {
+    expect(() => { vs.checkIsZeroLength(12); })
+      .toThrowError('input does not have a length property, or that property does not equal zero.');
+
+    expect(() => { vs.checkIsZeroLength([1, 2, 3]); })
+      .toThrowError('input does not have a length property, or that property does not equal zero.');
+
+    // different variable name
+    expect(() => { vs.checkIsZeroLength(12, 'charles'); })
+      .toThrowError('charles does not have a length property, or that property does not equal zero.');
+  });
+
+  it('returns undefined', () => {
+    expect(vs.checkIsZeroLength('')).toBeUndefined();
+    expect(vs.checkIsZeroLength([])).toBeUndefined();
+  });
+});
+
 describe('checkObjectProperties', () => {
   it('returns true by default', () => {
     pending('implementation of reviver');

@@ -180,6 +180,55 @@ const main = function main(args = { strict: false }) {
       );
     }
   };
+
+  const checkIsPopulatedArray = function checkIsPopulatedArray(x, variableName = 'input') {
+    checkIsArray(x, variableName);
+
+    if (!(vp.isPopulatedArray(x))) {
+      throw new Error(`${variableName} is a zero-length array.`);
+    }
+  };
+
+  const checkIsPopulatedObject = function checkIsPopulatedObject(x, variableName = 'input') {
+    checkIsObject(x, variableName);
+
+    if (!(vp.isPopulatedObject(x))) {
+      throw new Error(`${variableName} is an object with no non-inherited properties.`);
+    }
+  };
+
+  const checkIsString = function checkIsString(x, variableName = 'input') {
+    if (!(vp.isString(x))) {
+      throw new Error(`${variableName} is not a string.`);
+    }
+  };
+
+  // leave this here because it relies on checkIsString
+  const checkIsPopulatedString = function checkIsPopulatedString(x, variableName = 'input') {
+    checkIsString(x, variableName);
+
+    if (!(vp.isPopulatedString(x))) {
+      throw new Error(`${variableName} is a zero-length string.`);
+    }
+  };
+
+  const checkIsSymbol = function checkIsSymbol(x, variableName = 'input') {
+    if (!(vp.isSymbol(x))) {
+      throw new Error(`${variableName} is not a symbol.`);
+    }
+  };
+
+  const checkIsUndefined = function checkIsUndefined(x, variableName = 'input') {
+    if (!(vp.isUndefined(x))) {
+      throw new Error(`${variableName} is not undefined.`);
+    }
+  };
+
+  const checkIsZeroLength = function checkIsZeroLength(x, variableName = 'input') {
+    if (!(vp.isZeroLength(x))) {
+      throw new Error(`${variableName} does not have a length property, or that property does not equal zero.`);
+    }
+  };
   // #endregion 'is' functions
 
   // #region 'not' functions
@@ -225,13 +274,13 @@ const main = function main(args = { strict: false }) {
     checkIsObject,
     checkIsObjectLike,
     checkIsObjectWithExpectedProps,
-    // checkIsPopulatedArray,
-    // checkIsPopulatedObject,
-    // checkIsPopulatedString,
-    // checkIsString,
-    // checkIsSymbol,
-    // checkIsUndefined,
-    // checkIsZeroLength,
+    checkIsPopulatedArray,
+    checkIsPopulatedObject,
+    checkIsPopulatedString,
+    checkIsString,
+    checkIsSymbol,
+    checkIsUndefined,
+    checkIsZeroLength,
     not: { ...notFunctions() },
   };
 };
