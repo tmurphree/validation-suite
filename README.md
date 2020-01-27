@@ -129,7 +129,7 @@ If someDate is not a date:
 
 Else:  
 * input is not a date.  
-* input is not a date after someDate.toISOString().  
+* input is not a date before someDate.toISOString().  
 e.g. 'input is not a date before 2099-10-02T00:00:00.000Z.'  
 
 ## checkIsFloat   
@@ -168,7 +168,7 @@ checkIsNull(x, [variableName])
 ## checkIsNullOrUndefined   
 The checks in the root of this library check for something positive.  E.g. checkIsArray passes if the input is an array.  The same applies here: this function passes if the input is null or undefined.  Consider using `vs.not.checkIsNotNullOrUndefined` if this is not what you want.  
 ```
-checkIsBigInt(x, [variableName])
+checkIsNullOrUndefined(x, [variableName])
 ```
 * input is not null or undefined. 
 
@@ -227,7 +227,7 @@ Else:
 * input is missing at least property foo.  
 * input has at least one additional property foo.  
 
-Strict mode only:  
+When `options.checkType` = true (the default in strict mode):  
 * input.foo is type actualType and expected type expectedType.  
 e.g. 'input.foo is type string and expected type number.'  
 
