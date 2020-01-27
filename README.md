@@ -88,6 +88,83 @@ checkIsBigInt(x, [variableName])
 ```
 * input is not a BigInt.  
 
+## checkIsBoolean  
+```
+checkIsBoolean(x, [variableName])
+```
+* input is not a boolean.  
+
+## checkIsDate  
+```
+checkIsDate(x, [variableName])
+```
+* input is not a date.  
+
+## checkIsDateAfter  
+Alias of checkIsDateGreaterThan.  
+
+## checkIsDateBefore  
+Alias of checkIsDateLessThan.  
+
+## checkIsDateGreaterThan     
+Checks that a date is greater than (after) another date.  
+```
+checkIsDateGreaterThan(x, someDate, [variableName])
+```
+If someDate is not a date:  
+* The date to check against is not a date.  
+
+Else:  
+* input is not a date.  
+* input is not a date after someDate.toISOString().  
+e.g. 'input is not a date after 2099-10-02T00:00:00.000Z.'  
+
+## checkIsDateLessThan     
+Checks that a date is less than (before) another date.  
+```
+checkIsDateLessThan(x, someDate, [variableName])
+```
+If someDate is not a date:  
+* The date to check against is not a date.  
+
+Else:  
+* input is not a date.  
+* input is not a date after someDate.toISOString().  
+e.g. 'input is not a date before 2099-10-02T00:00:00.000Z.'  
+
+## checkIsFloat   
+x is a number (see checkIsNumber) and has a nonzero decimal. e.g. 5.0 is NOT a float, but 5.01 is.   
+```
+checkIsFloat(x, [variableName])
+```
+* input is not a floating point number.  
+
+## checkIsFunction  
+```
+checkIsFunction(x, [variableName])
+```
+* input is not a function.  
+
+## checkIsInteger  
+x is a number (see checkIsNumber) and has a zero-value decimal. e.g. 5 and 5.0 are both integers, but 5.01 is NOT.  
+```
+checkIsInteger(x, [variableName])
+```
+* input is not an integer.  
+
+## checkIsIsoDateTimeString  
+x is a string and matches a subset of the ISO 8601 date time string format.  See the documentation [https://github.com/tmurphree/validation-predicates]().  
+```
+checkIsIsoDateTimeString(x, [variableName])
+```
+* input is not an ISO date time string in a supported layout.  See the documentation https://github.com/tmurphree/validation-predicates.   
+
+## checkIsNull  
+```
+checkIsNull(x, [variableName])
+```
+* input is not null.  
+      
 ## checkIsNullOrUndefined   
 The checks in the root of this library check for something positive.  E.g. checkIsArray passes if the input is an array.  The same applies here: this function passes if the input is null or undefined.  Consider using `vs.not.checkIsNotNullOrUndefined` if this is not what you want.  
 ```
