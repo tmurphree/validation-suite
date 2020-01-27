@@ -93,7 +93,7 @@ The checks in the root of this library check for something positive.  E.g. check
 ```
 checkIsBigInt(x, [variableName])
 ```
-* input is not null or undefined  
+* input is not null or undefined. 
 
 ## checkIsNumber  
 Fails for NaN.  
@@ -101,6 +101,30 @@ Fails for NaN.
 checkIsNumber(x, [variableName])
 ```
 * input is not a number or is NaN.   
+
+## checkIsNumberGreaterThan  
+```
+checkIsNumberGreaterThan(x, someNumber, [variableName])
+```
+If someNumber is not a number:  
+* The number to check against is not a number or is NaN.  
+
+Else:  
+* input is not a number or is NaN.  
+* input is not a number greater than someNumber.  
+e.g. 'input is not a number greater than 42.'  
+
+## checkIsNumberLessThan  
+```
+checkIsNumberLessThan(x, someNumber, [variableName])
+```
+If someNumber is not a number:  
+* The number to check against is not a number or is NaN.  
+
+Else:  
+* input is not a number or is NaN.  
+* input is not a number less than someNumber.  
+e.g. 'input is not a number less than 42.' 
 
 # "not" functions  
 Check for a negative.  In a separate namespace because it's very hard to differentiate `checkIsNullOrUndefined` and `checkIsNotNullOrUndefined`.  It's easier differentiate `vs.checkIsNullOrUndefined` and `vs.not.checkIsNotNullOrUndefined`.  
