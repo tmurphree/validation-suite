@@ -576,9 +576,3 @@ describe('checkIsZeroLength', () => {
     expect(vs.checkIsZeroLength([])).toBeUndefined();
   });
 });
-
-describe('checkObjectProperties', () => {
-  it('returns true by default', () => {
-    pending('implementation of reviver');
-  });
-});
