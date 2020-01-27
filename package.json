@@ -1,6 +1,6 @@
 {
   "name": "validation-suite",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Makes input validation faster by removing unnecesssry typing.",
   "keywords": [
     "validation",
