@@ -4,8 +4,6 @@
  * @fileoverview Test functions in the vs root namespace.
 */
 
-require('dotenv').config();
-
 const vs = require('../index.js');
 
 // #region jasmine setup

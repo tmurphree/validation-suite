@@ -1,8 +1,14 @@
 {
   "name": "validation-suite",
   "version": "0.0.0",
-  "description": "",
-  "keywords": ["validation","error messages"],
+  "description": "Makes input validation faster by removing unnecesssry typing.",
+  "keywords": [
+    "validation",
+    "error messages",
+    "fast",
+    "suite",
+    "speed"
+  ],
   "main": "index.js",
   "license": "MIT",
   "scripts": {
@@ -15,8 +21,7 @@
   },
   "dependencies": {
     "@tmurphree/validation-error-messages": "1.x",
-    "@tmurphree/validation-predicates": "2.x",
-    "dotenv": "8.2.0"
+    "@tmurphree/validation-predicates": "2.x"
   },
   "devDependencies": {
     "eslint": "6.1.0",

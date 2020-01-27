@@ -5,8 +5,6 @@
  * from index.spec.js or test functions with no options impacted by strict mode.
 */
 
-require('dotenv').config();
-
 const vsStrict = require('../index.js').strict;
 
 // #region jasmine setup

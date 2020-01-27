@@ -4,8 +4,6 @@
  * @fileoverview Test functions in the vs.not namespace.
 */
 
-require('dotenv').config();
-
 const vsNot = require('../index.js').not;
 
 // #region jasmine setup
