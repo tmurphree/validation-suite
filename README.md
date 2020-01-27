@@ -203,6 +203,92 @@ Else:
 * input is not a number less than someNumber.  
 e.g. 'input is not a number less than 42.' 
 
+## checkIsObject  
+Fails for null.  
+x is an object per the definition in 'typeof' EXCEPT that it returns false for null.  Basically, this means it isn't another known type of primitive and is not null.  See [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof).  
+```
+checkIsObject(x, [variableName])
+```
+* input is not an object or is null.  
+
+## checkIsObjectLike  
+x is an object and has exactly the same own properties as template.  
+See [https://github.com/tmurphree/validation-predicates]().  Everything, even the strict mode guidance, is exactly the same.  
+```
+isObjectLike(x, template, [variableName], [options={ checkType: false, debug: false }])
+```
+If template is not an object:  
+* The template object is not an object or is null.  
+
+'foo' in the following examples is the pertinent property name.  
+
+Else:  
+* input is not an object.  
+* input is missing at least property foo.  
+* input has at least one additional property foo.  
+
+Strict mode only:  
+* input.foo is type actualType and expected type expectedType.  
+e.g. 'input.foo is type string and expected type number.'  
+
+## checkIsObjectWithExpectedProps  
+```
+checkIsObjectWithExpectedProps(x, expectedProperties, [variableName])
+```
+If expectedProperties is not an array, is an empty array, or has an non-string values:  
+* expectedProperties is not an array of strings.  
+
+'foo' in the following examples is the pertinent property name.  
+
+Else:  
+* input is not an object.  
+* input is missing at least property foo.  
+
+## checkIsPopulatedArray  
+```
+checkIsPopulatedArray(x, [variableName])
+```
+* input is not an array.  
+* input is a zero-length array.  
+
+## checkIsPopulatedObject  
+```
+checkIsPopulatedObject(x, [variableName])
+```
+* input is not an object or is null.  
+* input is an object with no non-inherited properties.  
+
+## checkIsPopulatedString  
+```
+checkIsPopulatedString(x, [variableName])
+```
+* input is not a string.  
+* input is a zero-length string.  
+
+## checkIsString  
+```
+checkIsString(x, [variableName])
+```
+* input is not a string.  
+
+## checkIsSymbol  
+```
+checkIsSymbol(x, [variableName])
+```
+* input is not a symbol.  
+
+## checkIsUndefined  
+```
+checkIsUndefined(x, [variableName])
+```
+* input is not undefined.  
+
+## checkIsZeroLength  
+```
+checkIsZeroLength(x, [variableName])
+```
+* input does not have a length property, or that property does not equal zero.  
+
 # "not" functions  
 Check for a negative.  In a separate namespace because it's very hard to differentiate `checkIsNullOrUndefined` and `checkIsNotNullOrUndefined`.  It's easier differentiate `vs.checkIsNullOrUndefined` and `vs.not.checkIsNotNullOrUndefined`.  
 
