@@ -25,7 +25,7 @@ checkIsInteger(foo);
 [Link to change log](https://github.com/tmurphree/validation-suite/blob/master/CHANGELOG.md)  
 
 # Installation  
-npm install --save @tmurphree/validation-suite  
+npm install --save validation-suite  
 
 # In addition to the check functions  
 ## predicates  
