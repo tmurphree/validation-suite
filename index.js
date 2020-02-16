@@ -1,5 +1,3 @@
-/* eslint no-unused-vars:'warn', no-undef:'warn' */
-
 const vem = require('@tmurphree/validation-error-messages');
 const vp = require('@tmurphree/validation-predicates');
 
@@ -141,6 +139,8 @@ const main = function main(args = { strict: false }) {
    * @param {object} template The object you want x to look like.
    * @param {string} [variableName=input] The name you want printed in the message.
    * @param {object} [options]
+   * @param {boolean} [options.allowExtraProps=false] Return undefined if the object to test has
+   *   properties not in template and other tests pass.
    * @param {boolean} [options.checkType=false] Defaults to true in strict mode.
    *    If true check property data types.
    * @param {boolean} [options.debug=false] Print verbose reasons why the validation
@@ -152,15 +152,36 @@ const main = function main(args = { strict: false }) {
     x,
     template,
     variableName = 'input',
-    options = { checkType: args.strict, debug: false }
+    options = {}
   ) {
     if (!(vp.isObject(template))) {
       throw new Error('The template object is not an object or is null.');
     }
 
-    if (!(vp.isObjectLike(x, template, { ...options }))) {
+    if (!(vp.isObject(options))) {
+      throw new Error('options is not an object or is null.');
+    }
+
+    // #region set options
+    const copyOfOptions = { ...options };
+    const defaults = {
+      allowExtraProps: false,
+      checkType: args.strict,
+      debug: false,
+    };
+
+    for (let index = 0; index < Object.keys(defaults).length; index++) {
+      const currentKey = Object.keys(defaults)[index];
+
+      if (copyOfOptions[currentKey] === undefined) {
+        copyOfOptions[currentKey] = defaults[currentKey];
+      }
+    }
+    // #endregion set options
+
+    if (!(vp.isObjectLike(x, template, { ...copyOfOptions }))) {
       throw new Error(
-        vem.makeIsObjectLikeMessage(x, template, variableName, { ...options })
+        vem.makeIsObjectLikeMessage(x, template, variableName, { ...copyOfOptions })
       );
     }
   };

@@ -388,6 +388,13 @@ describe('checkIsObjectLike', () => {
       .toThrowError('input is missing at least property b.');
   });
 
+  it('fails if there are extra properties', () => {
+    const hasExtraPropD = { a: 1, b: 2, c: 3, d: 'something' };
+
+    expect(() => (vs.checkIsObjectLike(hasExtraPropD, template)))
+      .toThrowError('input has at least one additional property d.');
+  });
+
   it('lets you change the variable name in the output', () => {
     expect(() => (vs.checkIsObjectLike('notanobject', template, 'charles')))
       .toThrowError('charles is not an object.');
@@ -399,6 +406,14 @@ describe('checkIsObjectLike', () => {
     // x has all of template plus property d
     expect(() => (vs.checkIsObjectLike({ a: 1, b: 2, c: 3, d: 4 }, template, 'charles')))
       .toThrowError('charles has at least one additional property d.');
+  });
+
+  it('optionally allows extra properties', () => {
+    const hasExtraPropD = { a: 'string', b: true, c: 12, d: 'something' };
+    const aepTemplate = { a: 'string', b: true, c: 12 };
+
+    expect(vs.checkIsObjectLike(hasExtraPropD, aepTemplate, 'input', { allowExtraProps: true }))
+      .toBeUndefined();
   });
 });
 

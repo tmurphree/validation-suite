@@ -69,4 +69,25 @@ describe('vsStrict.checkIsObjectLike', () => {
     expect(() => (vsStrict.checkIsObjectLike(bIsString, template, 'charles')))
       .toThrowError('charles.b is type string and expected type number.');
   });
+
+  it('returns on the first missing property when more than one property is missing', () => {
+    // x is missing properties b and c
+    expect(() => (vsStrict.checkIsObjectLike({ a: 1 }, template)))
+      .toThrowError('input is missing at least property b.');
+  });
+
+  it('fails if there are extra properties', () => {
+    const hasExtraPropD = { a: 1, b: 2, c: 3, d: 'something' };
+
+    expect(() => (vsStrict.checkIsObjectLike(hasExtraPropD, template)))
+      .toThrowError('input has at least one additional property d.');
+  });
+
+  it('optionally allows extra properties', () => {
+    const hasExtraPropD = { a: 'string', b: true, c: 12, d: 'something' };
+    const aepTemplate = { a: 'string', b: true, c: 12 };
+
+    expect(vsStrict.checkIsObjectLike(hasExtraPropD, aepTemplate, 'input', { allowExtraProps: true }))
+      .toBeUndefined();
+  });
 });

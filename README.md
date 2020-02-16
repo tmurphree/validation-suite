@@ -212,10 +212,11 @@ checkIsObject(x, [variableName])
 * input is not an object or is null.  
 
 ## checkIsObjectLike  
-x is an object and has exactly the same own properties as template.  
+x is an object and has exactly the same own properties as template (by default).  
+If options.allowExtraProps is true, x can have more properties than template.  
 See [https://github.com/tmurphree/validation-predicates]().  Everything, even the strict mode guidance, is exactly the same.  
 ```
-isObjectLike(x, template, [variableName], [options={ checkType: false, debug: false }])
+isObjectLike(x, template, [variableName], [options={ allowExtraProps: false, checkType: false, debug: false }])
 ```
 If template is not an object:  
 * The template object is not an object or is null.  
