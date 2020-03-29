@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // use this instead of line 3:
 // const vs = require('validation-suite');
 const vs = require('../index');
@@ -13,8 +15,8 @@ const myFunctionWithShortInput = function myFunctionWithShortInput(input) {
   // code goes here
 };
 
-// if you have a input with more than about 10 properties, or if all of them should use the same 
-// validation, use checkIsObjectLike 
+// if you have a input with more than about 10 properties, or if all of them should use the same
+// validation, use checkIsObjectLike
 const myFunctionWithLongInput = function myFunctionWithLongInput(input) {
   // the values in template don't matter - they are
   // only used in checking typeof property === 'the expected property type'

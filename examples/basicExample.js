@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // use this instead of line 3:
 // const vs = require('validation-suite');
 const vs = require('../index');
