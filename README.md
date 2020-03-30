@@ -38,10 +38,10 @@ Turns on strict mode in [@tmurphree/validation-predicates](https://github.com/tm
 
 ``` js
 // strict mode on
-// const vs = require('@tmurphree/validation-suite').strict;
+// const vs = require('validation-suite').strict;
 
 // strict mode off
-const vs = require('@tmurphree/validation-suite');
+const vs = require('validation-suite');
 
 
 const { predicates } = vs;
@@ -295,7 +295,7 @@ Check for a negative.  In a separate namespace because it's very hard to differe
 
 ``` js
 // use with 'vs.not'
-const vs = require('@tmurphree/validation-suite');
+const vs = require('validation-suite');
 
 vs.not.checkIsNotNullOrUndefined(userId);
 ```
